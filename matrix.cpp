@@ -1,33 +1,77 @@
 #include<stdio.h>
 #include<assert.h>
 
-void printMatrix(int* arr, int maxX, int maxY);
-void addMatrix(int* arr1, int* arr2, int maxX, int maxY);
-void minusMatrix(int* arr1, int* arr2, int maxX, int maxY);
-void multiplyMatrix(int* arr1, int* arr2, int* arrRes, int N, int K, int M);
+void print_matrix(int* arr, int maxX, int maxY);
+void add_matrix(int* arr1, int* arr2, int maxX, int maxY);
+void minus_matrix(int* arr1, int* arr2, int maxX, int maxY);
+void multiply_matrix(int* arr1, int* arr2, int* arrRes, int N, int K, int M);
 
+int calc_arithmetic_progression(int val);
+void print_triangular_matrix(int* table, int comandCnt);
+void fill_in_triangular_matrix(int* table, int comandCnt);
 
 int main(){
-    int N = 3, K = 3, M = 2;
-    int arr1[N][K] = {
-        {1, 2, 1},
-        {0, 1, 0},
-        {2, 3, 4},
-    };
-    int arr2[K][M] = {
-        {2, 5},
-        {6, 7},
-        {1, 8},
-    };
-    int arrRes[N][M] = {};
-
-    //addMatrix((int*) arr1, (int*) arr2, maxX, maxY);
-    multiplyMatrix((int*) arr1, (int*) arr2, (int*) arrRes, N, K, M);
-    printMatrix((int*) arrRes, N, M);
+//     int N = 3, K = 3, M = 2;
+//     int arr1[N][K] = {
+//         {1, 2, 1},
+//         {0, 1, 0},
+//         {2, 3, 4},
+//     };
+//     int arr2[K][M] = {
+//         {2, 5},
+//         {6, 7},
+//         {1, 8},
+//     };
+//     int arrRes[N][M] = {};
+//
+//     //add_matrix((int*) arr1, (int*) arr2, maxX, maxY);
+//     multiply_matrix((int*) arr1, (int*) arr2, (int*) arrRes, N, K, M);
+//     print_matrix((int*) arrRes, N, M);
+    int comandCnt = 0;
+    scanf("%d", &comandCnt);
+    int tableCnt = calc_arithmetic_progression(comandCnt);
+    int table[tableCnt] = {};
+    fill_in_triangular_matrix(table, comandCnt);
+    print_triangular_matrix(table, comandCnt);
 }
 
+void print_matrix_filling_format(){
+    printf("Enter the team scores in the correct format:\n\
+            1\n\
+            2 3\n\
+            4 5 6\n");
+}
 
-void printMatrix(int* arr, int maxX, int maxY) {
+int calc_arithmetic_progression(int val){
+    return val * (val + 1) / 2;
+}
+
+void fill_in_triangular_matrix(int* table, int comandCnt){
+    assert(table);
+
+    print_matrix_filling_format();
+    int temp = 0;
+
+    for(int i = 0; i < comandCnt; i++){
+        for(int j = 0; j <= i; j++){
+            scanf("%d", &temp);
+            *(table + calc_arithmetic_progression(i) + j) = temp;
+        }
+    }
+}
+
+void print_triangular_matrix(int* table, int comandCnt){
+    assert(table);
+
+    for(int i = 0; i < comandCnt; i++){
+        for(int j = 0; j <= i; j++){
+            printf("%d ", *(table + calc_arithmetic_progression(i) + j));
+        }
+        printf("\n");
+    }
+}
+
+void print_matrix(int* arr, int maxX, int maxY) {
     assert(arr);
 
     for(int y = 0; y < maxY; y++){
@@ -37,7 +81,7 @@ void printMatrix(int* arr, int maxX, int maxY) {
     }
 }
 
-void addMatrix(int* arr1, int* arr2, int maxX, int maxY){
+void add_matrix(int* arr1, int* arr2, int maxX, int maxY){
     assert(arr1);
     assert(arr2);
 
@@ -48,7 +92,7 @@ void addMatrix(int* arr1, int* arr2, int maxX, int maxY){
     }
 }
 
-void minusMatrix(int* arr1, int* arr2, int maxX, int maxY){
+void minus_matrix(int* arr1, int* arr2, int maxX, int maxY){
     assert(arr1);
     assert(arr2);
 
@@ -59,7 +103,7 @@ void minusMatrix(int* arr1, int* arr2, int maxX, int maxY){
     }
 }
 
-void multiplyMatrix(int* arr1, int* arr2, int* arrRes, int N, int K, int M){
+void multiply_matrix(int* arr1, int* arr2, int* arrRes, int N, int K, int M){
     assert(arr1);
     assert(arr2);
     assert(arrRes);
