@@ -27,12 +27,17 @@ int main(){
 //     //add_matrix((int*) arr1, (int*) arr2, maxX, maxY);
 //     multiply_matrix((int*) arr1, (int*) arr2, (int*) arrRes, N, K, M);
 //     print_matrix((int*) arrRes, N, M);
-    int comandCnt = 0;
-    scanf("%d", &comandCnt);
-    int tableCnt = calc_arithmetic_progression(comandCnt);
-    int table[tableCnt] = {};
-    fill_in_triangular_matrix(table, comandCnt);
-    print_triangular_matrix(table, comandCnt);
+
+
+    // int comandCnt = 0;
+    // scanf("%d", &comandCnt);
+    // int tableCnt = calc_arithmetic_progression(comandCnt);
+    // int table[tableCnt] = {};
+    // fill_in_triangular_matrix(table, comandCnt);
+    // print_triangular_matrix(table, comandCnt);
+
+    int arr[] = {10, 29, 30, 40, 5, 1, 3, 4};
+    printf("%ld", *(double*)((size_t)arr + 2 * sizeof(int)));
 }
 
 void print_matrix_filling_format(){
