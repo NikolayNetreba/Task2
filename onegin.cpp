@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <assert.h>
 
+#define buffer_len 100
 int comp(char* str1, char* str2){
     assert(str1);
     assert(str2);
@@ -9,15 +10,7 @@ int comp(char* str1, char* str2){
         str1++;
         str2++;
     }
-    // abcj
-    // abc
 
-    // if(*str1 == '\0'){
-    //     return 0;
-    // }
-    // if(*str2 == '\0'){
-    //     return -1;
-    // }
     return *str2 - *str1;
 }
 
@@ -31,16 +24,30 @@ void strCpy(char* copy, char* org){
     *copy = '\0';
 }
 
-void change_elem(char* str1, char* str2){
+void change_elem_str_copy(char* str1, char* str2){
     assert(str1);
     assert(str2);
 
-    char temp[100] = {};
+    char temp[buffer_len] = {};
 
     strCpy(temp, str1);
     strCpy(str1, str2);
     strCpy(str2, temp);
 }
+
+void change_elem_char_copy(char* str1, char* str2){
+    assert(str1);
+    assert(str2);
+
+    char temp = ' ';
+    while(*str1 != '\0' || *str2 != '\0'){
+        temp = *str1;
+        *str1++ = *str2;
+        *str2++ = temp;
+    }
+}
+
+// void change_elem_char
 
 void bubble_sort(char* arr, int len){
     assert(arr);
@@ -50,7 +57,7 @@ void bubble_sort(char* arr, int len){
 
         for(int x = 0; x < len - y - 1; x++){
             if(comp(arr + x * len, arr + (x + 1) * len) < 0){
-                change_elem(arr + x * len, arr + (x + 1) * len);
+                change_elem_char_copy(arr + x * len, arr + (x + 1) * len);
                 isSwapped = true;
             }
         }
@@ -62,17 +69,23 @@ void bubble_sort(char* arr, int len){
 }
 
 int main(){
-    int len = 5;
-    char arr[len][len] = {
-        "abck",
-        "abc",
-        "abcb",
-        "str1",
-        "a"
-    };
-    bubble_sort((char*)arr, len);
-
-    for(int i = 0; i < len; i++){
-        printf("%s\n", arr[i]);
-    }
+//     int len = 5;
+//     char arr[len][len] = {
+//         "abck",
+//         "abc",
+//         "abcb",
+//         " ",
+//         "a"
+//     };
+//     bubble_sort((char*)arr, len);
+//
+//     for(int i = 0; i < len; i++){
+//         printf("%s\n", arr[i]);
+//     }
+    char* a = "i love gay";
+    char* b = "i do not love gay";
+    unsigned long long j = (unsigned long long)a;
+    a = b;
+    b = (char*)j;
+    printf("%s, %s", a, b);
 }
