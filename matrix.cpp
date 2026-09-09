@@ -1,11 +1,14 @@
-#include<stdio.h>
-#include<assert.h>
+#define TX_COMPILED
+#include "TXLib.h"
+#include <stdio.h>
+#include <assert.h>
 
 void print_matrix(int* arr, int maxX, int maxY);
 void add_matrix(int* arr1, int* arr2, int maxX, int maxY);
 void minus_matrix(int* arr1, int* arr2, int maxX, int maxY);
 void multiply_matrix(int* arr1, int* arr2, int* arrRes, int N, int K, int M);
 
+void print_matrix_filling_format();
 int calc_arithmetic_progression(int val);
 void print_triangular_matrix(int* table, int comandCnt);
 void fill_in_triangular_matrix(int* table, int comandCnt);
@@ -23,7 +26,6 @@ int main(){
 //         {1, 8},
 //     };
 //     int arrRes[N][M] = {};
-//
 //     //add_matrix((int*) arr1, (int*) arr2, maxX, maxY);
 //     multiply_matrix((int*) arr1, (int*) arr2, (int*) arrRes, N, K, M);
 //     print_matrix((int*) arrRes, N, M);
@@ -36,7 +38,8 @@ int main(){
     // fill_in_triangular_matrix(table, comandCnt);
     // print_triangular_matrix(table, comandCnt);
 
-    int arr[] = {10, 29, 30, 40, 5, 1, 3, 4};
+    int arr[] = {10, 29, 30, 10000000000, 5, 1, 3, 4};
+    txDump(arr);
     printf("%ld", *(double*)((size_t)arr + 2 * sizeof(int)));
 }
 

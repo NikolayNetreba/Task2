@@ -1,8 +1,8 @@
-#include<stdio.h>
-#include<string.h>
-#include<assert.h>
+#include <stdio.h>
+#include <string.h>
+#include <assert.h>
 
-long long strLen(const char* start){
+size_t strLen(const char* start){
     assert(start != NULL);
 
     const char* end = start;
@@ -10,8 +10,8 @@ long long strLen(const char* start){
         ++end;
     }
 
-    return end - start;
-}
+    return (size_t) (end - start);
+}//prtdiff_t ssize_t
 
 int putS(const char* start){
     if (start == NULL){
@@ -19,7 +19,9 @@ int putS(const char* start){
     }
 
     while (*start != '\0'){
-        putchar(*start);
+        if(putchar(*start) == EOF){
+            return EOF;
+        }
         ++start;
     }
     putchar('\n');
@@ -34,9 +36,7 @@ char* strCpy(char* copy, const char* org){
     char* returnValue = copy;
 
     while (*org != '\0'){
-        *copy = *org;
-        ++copy;
-        ++org;
+        *copy++ = *org++;
     }
     *copy = '\0';
 
@@ -78,13 +78,15 @@ int strCmp(char* str1, char* str2){
 
 int main(){
     const int size = 40;
-    char p[size] = "hil";
-    char h[size] = "hia";
-    const char* j = "ko";
-    putS(p);
-    putS(j);
-    int k = strCmp(p, h);
-    int l = strcmp(p, h);
-    putS(p);
+
+    char* example1 = "hil";
+    char* example2 = "hia";
+    char* example3 = "ko";
+
+    putS(example1);
+    putS(example3);
+    int k = strCmp(example1, example2);
+    int l = strcmp(example1, example2);
+    putS(example1);
     printf("%d %d", k, l);
 }
