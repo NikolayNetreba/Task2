@@ -82,10 +82,12 @@ int main(){
 //     for(int i = 0; i < len; i++){
 //         printf("%s\n", arr[i]);
 //     }
-    char* a = "i love gay";
-    char* b = "i do not love gay";
-    unsigned long long j = (unsigned long long)a;
-    a = b;
-    b = (char*)j;
+    char a[] = "qwertyui ahhahah";
+    char b[] = "asdfghjk ahshs";
+    unsigned long long* tempA = (unsigned long long*)a;
+    unsigned long long* tempB = (unsigned long long*)b;
+    unsigned long long temp = tempA[0];
+    tempA[0] = tempB[0];
+    tempB[0] = temp;
     printf("%s, %s", a, b);
 }
