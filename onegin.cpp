@@ -55,7 +55,7 @@ void change_elem_ind(int* ind, int i1, int i2){
     *(ind + i2) = temp;
 }
 
-void change_elem_pointer(char** str1, char** str2){
+void change_elem_pointer(char* str1, char* str2){
     assert(str1);
     assert(str2);
 
@@ -64,7 +64,7 @@ void change_elem_pointer(char** str1, char** str2){
     *str2 = temp;
 }
 
-void bubble_sort(char** arr, int len, int* ind){
+void bubble_sort(char* arr, int len, int* ind){
     assert(arr);
     assert(ind);
 
@@ -72,10 +72,10 @@ void bubble_sort(char** arr, int len, int* ind){
         bool isSwapped = false;
 
         for(int x = 0; x < len - y - 1; x++){
-            if(comp(arr[ind[x]], arr[ind[x + 1]]) < 0){
-                // change_elem_char_copy(arr[ind[x]], arr[ind[x + 1]]);
+            if(comp(*(arr + x * len), *(arr + (x + 1) * len)) < 0){
+                change_elem_char_copy(*(arr + x * len), *(arr + (x + 1) * len));
                 //change_elem_ind(ind, x, x + 1);
-                change_elem_pointer(&arr[x], &arr[x + 1]);
+                // change_elem_pointer(*(arr + x * len), *(arr + x * len));
                 isSwapped = true;
             }
         }
@@ -103,34 +103,27 @@ void initial_point(char** pointers, int len, char** arr){
 }
 
 int main(){
-    const int len = 5;
-    char* arr[] = {
-        "abck",
-        "abc",
-        "abcb",
-        "str",
-        "a"
-    };
+//     const int len = 5;
+//     char arr[len][len] = {
+//         "abck",
+//         "abc",
+//         "abcb",
+//         "str",
+//         "a"
+//     };
+//
+//     int ind[len] = {};
+//     initial_ind(ind, len);
+//
+//     bubble_sort(arr, len, ind);
+//
+//     // for(int i = 0; i < len; i++){
+//     //     printf("%s\n", arr[ind[i]]);
+//     // }
+//
+//     for(int i = 0; i < len; i++){
+//         printf("%s\n", arr[i]);
+//     }
 
-    int ind[len] = {};
-    initial_ind(ind, len);
 
-    bubble_sort(arr, len, ind);
-
-    // for(int i = 0; i < len; i++){
-    //     printf("%s\n", arr[ind[i]]);
-    // }
-
-    for(int i = 0; i < len; i++){
-        printf("%s\n", arr[i]);
-    }
-
-    // char a[] = "qwertyui ahhahah";
-    // char b[] = "asdfghjk ahshs";
-    // unsigned long long* tempA = (unsigned long long*)a;
-    // unsigned long long* tempB = (unsigned long long*)b;
-    // unsigned long long temp = tempA[0];
-    // tempA[0] = tempB[0];
-    // tempB[0] = temp;
-    // printf("%s, %s", a, b);
 }
