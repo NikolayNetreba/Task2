@@ -2,11 +2,22 @@
 #include <stdlib.h>
 #include <cstdint>
 
+void ch(char* a){
+    printf("%c", a[0]);
+}
+
+size_t strLen(const char* start){
+    const char* end = start;
+    while (*end != '\0'){
+        ++end;
+    }
+
+    return (size_t) (end - start);
+}//prtdiff_t
+
 int main(){
-    char a[] = "qwertyui ahhahah";
-    char b[] = "asdfghjk ahshs";
-    uint64_t temp = *(uint64_t*)a;
-    *(uint64_t*)a = *(uint64_t*)b;
-    *(uint64_t*)b = temp;
-    printf("%s, %s", a, b);
+    char a[] = "a";
+    ch(a);
+    printf("%d", sizeof(int));
+
 }
