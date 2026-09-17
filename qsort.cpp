@@ -15,7 +15,7 @@ void swap_elem(int* arr, int a, int b){
 }
 
 void printArr(int* arr, int len, int L, int R, int pivotInd, pStatus status){
-    printf("\nleft = %d, rightBorder = %d, pivot = %d | ", L, R, pivotInd);
+    printf("\nleft = %d, rightBorder = %d, pivot = %d | ", L, R, arr[pivotInd]);
     switch(status){
         case PSTAT_LEFT:
             printf("searching for " MAKE_BLUE("leftBorder ") " bad element\n");
@@ -95,7 +95,7 @@ void quickSort(int* arr, int leftBorder, int rightBorder, int len){
 }
 
 int main(){
-    int arr[] = {10, 11, 100, 200, 5, 45, 50, 40, 49, 15, 60, 10, 70};
+    int arr[] = {4, 2, 7, 1, 3, 9, 0, 5, -2, 8};
     int len = sizeof(arr) / sizeof(int);
     quickSort(arr, 0, len - 1, len);
 
