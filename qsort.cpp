@@ -15,33 +15,38 @@ void swap_elem(int* arr, int a, int b){
 }
 
 void printArr(int* arr, int len, int L, int R, int pivotInd, pStatus status){
+    printf("\nleft = %d, rightBorder = %d, pivot = %d | ", L, R, pivotInd);
+    switch(status){
+        case PSTAT_LEFT:
+            printf("searching for " MAKE_BLUE("leftBorder ") " bad element\n");
+            break;
+        case PSTAT_RIGHT:
+            printf("searching for " MAKE_RED("rightBorder") " bad element\n");
+            break;
+        case PSTAT_SWAP:
+            printf(MAKE_GREEN("swapped elements\n"));
+            break;
+        default:
+            printf(MAKE_MAGENTA("You can't be here\n"));
+    }
+
     for(int i = 0; i < len; i++){
         if (status == PSTAT_SWAP and (L == i or R == i)){
-            printf(MAKE_GREEN("%d "), arr[i]);
+            printf("| " MAKE_GREEN("%3d") " | ", arr[i]);
         } else if(i <= L){
-            printf(MAKE_BLUE("%d "), arr[i]);
+            printf("| " MAKE_BLUE("%3d") " | ", arr[i]);
         } else if(i == pivotInd) {
-            printf(MAKE_YELLOW("%d "), arr[i]);
+            printf("| " MAKE_YELLOW("%3d") " | ", arr[i]);
         } else if(i >= R){
-            printf(MAKE_RED("%d "), arr[i]);
+            printf("| " MAKE_RED("%3d") " | ", arr[i]);
         } else {
-            printf("%d ", arr[i]);
+            printf("| %3d | ", arr[i]);
         }
     }
 
-    printf("\nleft = %d, right = %d, pivot = %d | ", L, R, pivotInd);
-    switch(status){
-        case PSTAT_LEFT:
-            printf("searching for " MAKE_BLUE("left") " bad element");
-            break;
-        case PSTAT_RIGHT:
-            printf("searching for " MAKE_RED("right") " bad element");
-            break;
-        case PSTAT_SWAP:
-            printf(MAKE_GREEN("swapped elements"));
-            break;
-        default:
-            printf(MAKE_MAGENTA("You can't be here"));
+    printf("\n");
+    for(int i = 0; i < len; i++){
+        printf("| %3d | ", i);
     }
 
     //for sleep print
@@ -50,13 +55,13 @@ void printArr(int* arr, int len, int L, int R, int pivotInd, pStatus status){
     printf("\n----------------------\n");
 }
 
-int partition(int* arr, int left, int right, int len){
+int partition(int* arr, int leftBorder, int rightBorder, int len){
     assert(arr);
-    assert(left <= right);
+    assert(leftBorder <= rightBorder);
 
-    int pivotInd = (left + right) / 2;
+    int pivotInd = (leftBorder + rightBorder) / 2;
     int pivot = arr[pivotInd];
-    int L = left - 1, R = right + 1;
+    int L = leftBorder - 1, R = rightBorder+ 1;
 
     while(1){
         do{
@@ -77,15 +82,15 @@ int partition(int* arr, int left, int right, int len){
     }
 }
 
-void quickSort(int* arr, int left, int right, int len){
+void quickSort(int* arr, int leftBorder, int rightBorder, int len){
     assert(arr);
-    assert(left <= right);
+    assert(leftBorder <= rightBorder);
 
-    if (left < right){
-        int pivot = partition(arr, left, right, len);
+    if (leftBorder < rightBorder){
+        int pivot = partition(arr, leftBorder, rightBorder, len);
 
-        quickSort(arr, left, pivot, len);
-        quickSort(arr, pivot + 1, right, len);
+        quickSort(arr, leftBorder, pivot, len);
+        quickSort(arr, pivot + 1, rightBorder, len);
     }
 }
 

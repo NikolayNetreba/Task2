@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-int partition(int* arr, int left, int right, int len){
+int partition(void* arr, size_t len, size_t size, int(*comp)(const void*, const void*)){
     assert(arr);
     assert(left <= right);
 
@@ -26,15 +26,17 @@ int partition(int* arr, int left, int right, int len){
     }
 }
 
-void quickSort(void* arr, size_t len, size_t size, int(*comp)(const void*, const void*)){
+void uQuickSort(void* arr, size_t len, size_t size, int(*comp)(const void*, const void*)){
     assert(arr);
-    void* left = arr
+    assert(len >= 0);
+
+    void* left = arr, right = arr + len * size;
 
     if (left < right){
-        int pivot = partition(arr, left, right, len);
+        int pivot = partition(arr, len, size, comp);
 
-        quickSort(arr, left, pivot, len);
-        quickSort(arr, pivot + 1, right, len);
+        quickSort(arr, left - right + 1, size, comp);
+        quickSort(arr + (pivot + 1) * size, len - pivot - 1, size, comp);
     }
 }
 
