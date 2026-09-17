@@ -2,22 +2,16 @@
 #include <stdlib.h>
 #include <cstdint>
 
-void ch(char* a){
-    printf("%c", a[0]);
+int add(int a, int b){
+    return a + b;
 }
 
-size_t strLen(const char* start){
-    const char* end = start;
-    while (*end != '\0'){
-        ++end;
-    }
-
-    return (size_t) (end - start);
-}//prtdiff_t
-
 int main(){
-    char a[] = "a";
-    ch(a);
-    printf("%d", sizeof(int));
+    int (*ptr)(int, int) = add;
+    int result = ptr(1, 2);
 
+    int a = 0;
+    void* p = &a;
+    scanf("%d", (int*)p);
+    printf("%d", *(int*)p);
 }
