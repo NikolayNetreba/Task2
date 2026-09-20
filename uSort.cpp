@@ -5,19 +5,21 @@
 #include <stdlib.h>
 #include "colors.h"
 
+const double EPS = 1e9;
+
 void printArr(void* arr, char* L, char* R, char* pivot, size_t len, size_t size){
     char* mass = (char*)arr;
 
     printf("pivot = %d\n", *pivot);
     for(char* i = mass; i < mass + len * size; i += size){
         if(i <= L){
-            printf("| " MAKE_BLUE("%3d") " | ", *(int*)i);
+            printf("| " MAKE_BLUE("%3s") " | ", *(int*)i);
         } else if(i == pivot) {
-            printf("| " MAKE_YELLOW("%3d") " | ", *(int*)i);
+            printf("| " MAKE_YELLOW("%3s") " | ", *(int*)i);
         } else if(i >= R){
-            printf("| " MAKE_RED("%3d") " | ", *(int*)i);
+            printf("| " MAKE_RED("%3s") " | ", *(int*)i);
         } else {
-            printf("| %3d | ", *(int*)i);
+            printf("| %3s | ", *(int*)i);
         }
     }
 
@@ -95,21 +97,43 @@ int int_comp(const void* a, const void* b){
 }
 
 int str_comp(const void* a, const void* b){
-    char* arg1 = *(char**)a;
-    char* arg2 = *(char**)b;
+    char* arg1 = (char*)a;
+    char* arg2 = (char*)b;
 
     return strcmp(arg1, arg2);
 }
 
+int double_comp(const void* a, const void* b){
+    double arg1 = *(double*)a;
+    double arg2 = *(double*)b;
+
+    if(arg1 > arg2) return 1;
+    if(arg1 < arg2) return -1;
+    return 0;
+}
+
 int main(){
-    int data[] = {4, 2, 7, 1, 3, 9, 0, 5, -2, 8};
-    size_t len = sizeof(data) / sizeof(data[0]);
+    int data_int[] = {4, 2, 7, 1, 3, 9, 0, 5, -2, 8};
+    size_t len_int = sizeof(data_int) / sizeof(data_int[0]);
 
-    u_quick_sort(data, len, sizeof(int), int_comp);
+    u_quick_sort(data_int, len_int, sizeof(int), int_comp);
 
-    for(size_t i = 0; i < len; i++) printf("%d ", data[i]);
+    for(size_t i = 0; i < len_int; i++) printf("%d ", data_int[i]);
     printf("\n");
-    char arr[5][32] = {
+
+    //------------
+
+    double data_double[] = {4.1, -0.3, 9.4, 1.09, 1.1, 10};
+    size_t len_double = sizeof(data_double) / sizeof(data_double[0]);
+
+    u_quick_sort(data_double, len_double, sizeof(double), double_comp);
+
+    for(size_t i = 0; i < len_double; i++) printf("%lf ", data_double[i]);
+    printf("\n");
+
+    //-----------
+
+    char data_str[5][32] = {
         "abck",
         "abc",
         "abcb",
@@ -117,10 +141,10 @@ int main(){
         "a"
     };
 
-    len = 5;
+    size_t len_str = sizeof(data_str) / sizeof(data_str[0]);
 
-    u_quick_sort(arr, len, sizeof(arr[0]), str_comp);
-    for(int i = 0; i < len; i++) printf("%s ", arr[i]);
+    u_quick_sort(data_str, len_str, sizeof(data_str[0]), str_comp);
+    for(int i = 0; i < len_str; i++) printf("%s ", data_str[i]);
     return 0;
 }
 
