@@ -1,0 +1,3 @@
+printf hi i am .. colya
+he has found a bug
+the bus was hill

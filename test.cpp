@@ -35,9 +35,7 @@ void swap_elem(void* a, void* b, size_t size){
 }
 
 int main(){
-    double arr[] = {1.2, 3.5};
-
-    swap_elem(&arr[0], &arr[1], sizeof(double));
-
-    printf("%lf, %lf", arr[0], arr[1]);
+    printf("printf\n");
+    fprintf(stderr, "fprintf\n");
+    perror("perror");
 }
