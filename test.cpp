@@ -34,8 +34,18 @@ void swap_elem(void* a, void* b, size_t size){
     memcpy(b, buff, size);
 }
 
+typedef struct{
+    int a;
+    int* c;
+} te;
+
+void p(te* arg){
+    arg->c = (int*)calloc(3, sizeof(int));
+    arg->c[0] = 10;
+    printf("%d", arg->c[0]);
+}
+
 int main(){
-    printf("printf\n");
-    fprintf(stderr, "fprintf\n");
-    perror("perror");
+    printf("%d", 'A');
+
 }

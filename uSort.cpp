@@ -34,17 +34,17 @@ void printArr(void* arr, char* L, char* R, char* pivot, size_t len, size_t size)
     printf("\n----------------------\n");
 }
 
-void swap_elem(void* a, void* b, size_t size){
-    char* arg1 = (char*)a;
-    char* arg2 = (char*)b;
-    char buff[size];
+void swap_elem(void* a, void* b, size_t size, void* pivotPtr){
+    char buff[size] = {};
+
+    if(a == pivotPtr) pivotPtr = b;
+    if(b == pivotPtr) pivotPtr = a;
 
     memcpy(buff, a, size);
     memcpy(a, b, size);
     memcpy(b, buff, size);
 }
 
-//len - length of array, size - size of array element (byte)
 size_t partition(void* arr, size_t len, size_t size, int(*comp)(const void*, const void*)){
     assert(arr);
 
@@ -52,29 +52,28 @@ size_t partition(void* arr, size_t len, size_t size, int(*comp)(const void*, con
     char* left = start - size, *right = start + len * size;
 
     size_t pivotIdx = (len - 1) / 2;
-    char* pivot = (char*)malloc(size);
-    memcpy(pivot, start + pivotIdx * size, size);
+    char* pivotPtr = start + pivotIdx * size;
 
     while(1){
         do{
             left += size;
             //printArr(arr, left, right, pivot, len, size);
-        } while(comp(left, pivot) < 0); //left < pivot
+        } while(comp(left, pivotPtr) < 0); //left < pivot
 
         do{
             right -= size;
             //printArr(arr, left, right, pivot, len, size);
-        } while(comp(right, pivot) > 0); // right > pivot
+        } while(comp(right, pivotPtr) > 0); // right > pivot
 
         if(left >= right){
-            free(pivot);
             return (right - start) / size; //pivot idx
         }
-        swap_elem(left, right, size);
+        swap_elem(left, right, size, pivotPtr);
         //printArr(arr, left, right, pivot, len, size);
     }
 }
 
+//len - length of array, size - size of array element (byte)
 void u_quick_sort(void* arr, size_t len, size_t size, int(*comp)(const void*, const void*)){
     assert(arr);
     assert(len >= 0);
@@ -111,40 +110,40 @@ int double_comp(const void* a, const void* b){
     if(arg1 < arg2) return -1;
     return 0;
 }
-
-int main(){
-    int data_int[] = {4, 2, 7, 1, 3, 9, 0, 5, -2, 8};
-    size_t len_int = sizeof(data_int) / sizeof(data_int[0]);
-
-    u_quick_sort(data_int, len_int, sizeof(int), int_comp);
-
-    for(size_t i = 0; i < len_int; i++) printf("%d ", data_int[i]);
-    printf("\n");
-
-    //------------
-
-    double data_double[] = {4.1, -0.3, 9.4, 1.09, 1.1, 10};
-    size_t len_double = sizeof(data_double) / sizeof(data_double[0]);
-
-    u_quick_sort(data_double, len_double, sizeof(double), double_comp);
-
-    for(size_t i = 0; i < len_double; i++) printf("%lf ", data_double[i]);
-    printf("\n");
-
-    //-----------
-
-    char data_str[5][32] = {
-        "abck",
-        "abc",
-        "abcb",
-        "str",
-        "a"
-    };
-
-    size_t len_str = sizeof(data_str) / sizeof(data_str[0]);
-
-    u_quick_sort(data_str, len_str, sizeof(data_str[0]), str_comp);
-    for(int i = 0; i < len_str; i++) printf("%s ", data_str[i]);
-    return 0;
-}
-
+//
+// int main(){
+//     int data_int[] = {4, 2, 7, 1, 3, 9, 0, 5, -2, 8};
+//     size_t len_int = sizeof(data_int) / sizeof(data_int[0]);
+//
+//     u_quick_sort(data_int, len_int, sizeof(int), int_comp);
+//
+//     for(size_t i = 0; i < len_int; i++) printf("%d ", data_int[i]);
+//     printf("\n");
+//
+//     //------------
+//
+//     double data_double[] = {4.1, -0.3, 9.4, 1.09, 1.1, 10};
+//     size_t len_double = sizeof(data_double) / sizeof(data_double[0]);
+//
+//     u_quick_sort(data_double, len_double, sizeof(double), double_comp);
+//
+//     for(size_t i = 0; i < len_double; i++) printf("%lf ", data_double[i]);
+//     printf("\n");
+//
+//     //-----------
+//
+//     char data_str[5][32] = {
+//         "abck",
+//         "abc",
+//         "abcb",
+//         "str",
+//         "a"
+//     };
+//
+//     size_t len_str = sizeof(data_str) / sizeof(data_str[0]);
+//
+//     u_quick_sort(data_str, len_str, sizeof(data_str[0]), str_comp);
+//     for(int i = 0; i < len_str; i++) printf("%s ", data_str[i]);
+//     return 0;
+// }
+//
