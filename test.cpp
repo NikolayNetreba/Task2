@@ -45,7 +45,9 @@ void p(te* arg){
     printf("%d", arg->c[0]);
 }
 
-int main(){
-    printf("%d", 'A');
-
+void test(char** a, char* b){
+    *a = b;
+}
+int main(int argc, char* argv[]){
+    printf("%d", argc);
 }

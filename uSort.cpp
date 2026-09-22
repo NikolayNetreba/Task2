@@ -1,6 +1,7 @@
 #include <cstddef>
 #include <stdio.h>
 #include <assert.h>
+#include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
 #include "colors.h"
@@ -35,7 +36,7 @@ void printArr(void* arr, char* L, char* R, char* pivot, size_t len, size_t size)
 }
 
 void swap_elem(void* a, void* b, size_t size, void* pivotPtr){
-    char buff[size] = {};
+    char* buff = (char*)calloc(size, sizeof(char));//TODO - it is crap
 
     if(a == pivotPtr) pivotPtr = b;
     if(b == pivotPtr) pivotPtr = a;
@@ -43,6 +44,39 @@ void swap_elem(void* a, void* b, size_t size, void* pivotPtr){
     memcpy(buff, a, size);
     memcpy(a, b, size);
     memcpy(b, buff, size);
+
+    free(buff);
+}
+
+void change_elem_char_copy(char* str1, char* str2, size_t dif, size_t size){
+    assert(str1);
+    assert(str2);
+
+    char temp = ' ';
+    for(; (dif + 1) <= size; dif++){
+        temp = *(str1 + dif);
+        *(str1 + dif) = *(str2 + dif);
+        *(str2 + dif) = temp;
+    }
+}
+
+void swap_elem_uint64(char* str1, char* str2, size_t size, void** pivotPtr){
+    assert(str1);
+    assert(str2);
+
+    if(str1 == *pivotPtr) *pivotPtr = str2;
+    if(str2 == *pivotPtr) *pivotPtr = str1;
+
+    size_t dif = 0;
+    uint64_t temp = 0;
+
+    for(; (dif + sizeof(uint64_t)) <= size; dif += 8){
+        temp                     = *(uint64_t*)(str1 + dif);
+        *(uint64_t*)(str1 + dif) = *(uint64_t*)(str2 + dif);
+        *(uint64_t*)(str2 + dif) = temp;
+    }
+
+    change_elem_char_copy(str1 + dif, str2 + dif, dif, size);
 }
 
 size_t partition(void* arr, size_t len, size_t size, int(*comp)(const void*, const void*)){
@@ -52,7 +86,7 @@ size_t partition(void* arr, size_t len, size_t size, int(*comp)(const void*, con
     char* left = start - size, *right = start + len * size;
 
     size_t pivotIdx = (len - 1) / 2;
-    char* pivotPtr = start + pivotIdx * size;
+    void* pivotPtr = start + pivotIdx * size;
 
     while(1){
         do{
@@ -68,7 +102,7 @@ size_t partition(void* arr, size_t len, size_t size, int(*comp)(const void*, con
         if(left >= right){
             return (right - start) / size; //pivot idx
         }
-        swap_elem(left, right, size, pivotPtr);
+        swap_elem_uint64(left, right, size, &pivotPtr);
         //printArr(arr, left, right, pivot, len, size);
     }
 }
@@ -110,7 +144,7 @@ int double_comp(const void* a, const void* b){
     if(arg1 < arg2) return -1;
     return 0;
 }
-//
+
 // int main(){
 //     int data_int[] = {4, 2, 7, 1, 3, 9, 0, 5, -2, 8};
 //     size_t len_int = sizeof(data_int) / sizeof(data_int[0]);
@@ -146,4 +180,4 @@ int double_comp(const void* a, const void* b){
 //     for(int i = 0; i < len_str; i++) printf("%s ", data_str[i]);
 //     return 0;
 // }
-//
+
