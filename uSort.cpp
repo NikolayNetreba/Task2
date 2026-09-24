@@ -4,9 +4,9 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
-#include "colors.h"
 
-const double EPS = 1e9;
+#include "colors.h"
+#include "uSort.h"
 
 void printArr(void* arr, char* L, char* R, char* pivot, size_t len, size_t size){
     char* mass = (char*)arr;

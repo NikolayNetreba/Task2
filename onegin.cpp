@@ -1,62 +1,18 @@
-#include <stddef.h>
 #include <stdlib.h>
 #include <io.h>
 #include <ctype.h>
 #include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <unistd.h>
 #include <assert.h>
 #include <fcntl.h>
-#include "uSort.cpp"
 
-#define LINE printf("-----------------------------------------\n")
-#define ERROR_VALUE -1
-
-struct lineParam{
-    char* start;
-    char* end;
-};
-
-struct text{
-    const char* fileName;
-    char* buffer;
-    lineParam* line;
-
-    struct stat fileStat;
-    off_t size;
-    size_t strCount;
-    size_t bytesRead;
-
-    void (*reade)(text* arg);
-    void (*fill_indexes)(text* arg);
-};
-
-void fill_str_count(text* arg);
-
-void fill_indexes(text* arg);
-
-off_t find_file_size(int fd, text* arg);
-
-void read_from_file(text* arg);
-
-//skip no letter
-void go_to_letter(char** a);
-void go_to_letter_reverse(char** end, char* start);
-
-int my_str_cmp(char* str1, char* str2);
-int my_str_cmp_reverse(lineParam* str1, lineParam* str2);
-
-int abc_comp(const void* a, const void* b);
-int cba_comp(const void* a, const void* b);
-
-void print_sorted_array(text* arg);
-void print_buffer(text* arg);
+#include "uSort.h"
+#include "onegin.h"
 
 int main(int argc, char* argv[]){
     const char* fileName = (argc == 2) ? argv[1] : "onegin.txt";
 
-    struct text onegin = {.fileName = fileName, .reade = read_from_file, .fill_indexes = fill_indexes};
+    struct text onegin = {.fileName = fileName, .reade = read_from_file, .fill_indexes = fill_indexes};//TODO -
     onegin.reade(&onegin);
     onegin.fill_indexes(&onegin);
 
@@ -90,7 +46,7 @@ void print_buffer(text* arg){
     }
 }
 
-void fill_str_count(text* arg){
+void fill_str_count(text* arg){//TODO - возвращать и чтобы искал любой символ
     assert(arg);
 
     arg->strCount = 1;
@@ -134,7 +90,7 @@ off_t find_file_size(const int fd, text* arg){
 void read_from_file(text* arg){
     assert(arg);
 
-    //find file discripter with out bufferisation
+    //find file descriptor with out bufferisation
     const int fd = open(arg->fileName, O_RDONLY);
     assert(fd != ERROR_VALUE && "Error opening");
 
@@ -142,7 +98,7 @@ void read_from_file(text* arg){
     arg->size = find_file_size(fd, arg);
 
     //allocation buffer
-    arg->buffer = (char*)malloc(arg->size + 1);
+    arg->buffer = (char*)calloc(arg->size + 1, sizeof(char));
     assert(arg->buffer && "Error allocation");
 
     //read from file
