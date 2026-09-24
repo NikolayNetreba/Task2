@@ -6,15 +6,16 @@
 #include <assert.h>
 #include <fcntl.h>
 
+#include "colors.h"
 #include "uSort.h"
 #include "onegin.h"
 
 int main(int argc, char* argv[]){
     const char* fileName = (argc == 2) ? argv[1] : "onegin.txt";
 
-    struct text onegin = {.fileName = fileName, .reade = read_from_file, .fill_indexes = fill_indexes};//TODO -
-    onegin.reade(&onegin);
-    onegin.fill_indexes(&onegin);
+    struct text onegin = {.fileName = fileName};
+    read_from_file(&onegin);
+    fill_indexes(&onegin);
 
     u_quick_sort(onegin.line, onegin.strCount, sizeof(lineParam), abc_comp);
     print_sorted_array(&onegin);
@@ -33,7 +34,7 @@ void print_sorted_array(text* arg){
         printf("%s\n", arg->line[i].start);
     }
 
-    LINE;
+    printf(LINE);
 }
 
 void print_buffer(text* arg){
@@ -46,21 +47,24 @@ void print_buffer(text* arg){
     }
 }
 
-void fill_str_count(text* arg){//TODO - возвращать и чтобы искал любой символ
+size_t fill_str_count(text* arg, char sepElem){
     assert(arg);
 
-    arg->strCount = 1;
+    size_t strCount = 1;
     for(int i = 0; arg->buffer[i] != '\0'; i++){
-        if(arg->buffer[i] == '\n'){
-            arg->strCount++;
+        if(arg->buffer[i] == sepElem){
+            strCount++;
         }
     }
+
+    return strCount;
 }
 
 void fill_indexes(text* arg){
     assert(arg);
 
-    fill_str_count(arg);
+    char sepElem = '\n';
+    arg->strCount = fill_str_count(arg, sepElem);
 
     arg->line = (lineParam*)calloc(arg->strCount, sizeof(lineParam));
     assert(arg->line);
@@ -83,16 +87,43 @@ void fill_indexes(text* arg){
 }
 
 off_t find_file_size(const int fd, text* arg){
+    assert(arg);
     assert(fstat(fd, &arg->fileStat) != ERROR_VALUE && "Error file stat");
     return arg->fileStat.st_size;
+}
+
+void clear_buffer(){
+    int trash = 0;
+    while ((trash = getchar()) != '\n' && trash != EOF);
+}
+
+const int scan_file_descriptor(const char** fileName){
+    int fd = open(*fileName, O_RDONLY);
+
+    static char file[MAX_LEN] = "";
+    while(fd == ERROR_VALUE){
+        fprintf(stderr, MAKE_RED("Error opening file: ")"%s: ", file);
+        perror("");
+        fprintf(stderr, LINE);
+
+        fprintf(stderr, MAKE_YELLOW("Enter the file name: "));
+        if (scanf("%" MAX_LEN_STR "s", file) != 1) {
+            clear_buffer();
+            continue;
+        }
+
+        fd = open(file, O_RDONLY);
+    }
+
+    *fileName = file;
+    return fd;
 }
 
 void read_from_file(text* arg){
     assert(arg);
 
     //find file descriptor with out bufferisation
-    const int fd = open(arg->fileName, O_RDONLY);
-    assert(fd != ERROR_VALUE && "Error opening");
+    const int fd = scan_file_descriptor(&arg->fileName);
 
     //find file size
     arg->size = find_file_size(fd, arg);
