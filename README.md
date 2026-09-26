@@ -1,13 +1,13 @@
-🌐 [![Language](https://shields.io)](https://wikipedia.org)
-🛠 [![GitHub Actions Status](https://shields.io)](https://github.com)
-📄 [![GitHub license](https://shields.io)](LICENSE)
+[![Language](https://img.shields.io/badge/language-C-blue.svg)](https://en.wikipedia.org/wiki/C_(programming_language))
+[![GitHub Actions Status](https://img.shields.io/github/actions/workflow/status/NikolayNetreba/Task2/main.yml?branch=main)](https://github.com/NikolayNetreba/Task2/actions)
+[![GitHub license](https://img.shields.io/github/license/NikolayNetreba/Task2)](LICENSE)
 
-👥 [![GitHub forks](https://shields.io)](https://github.com)
-⭐ [![GitHub stars](https://shields.io)](https://github.com)
-🔀 [![GitHub pull requests](https://shields.io)](https://github.com)
-📅 [![GitHub last commit](https://shields.io)](https://github.com)
+[![GitHub forks](https://img.shields.io/github/forks/NikolayNetreba/Task2)](https://github.com/NikolayNetreba/Task2/network/members)
+[![GitHub stars](https://img.shields.io/github/stars/NikolayNetreba/Task2)](https://github.com/NikolayNetreba/Task2/stargazers)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/NikolayNetreba/Task2)](https://github.com/NikolayNetreba/Task2/pulls)
+[![GitHub last commit](https://img.shields.io/github/last-commit/NikolayNetreba/Task2)](https://github.com/NikolayNetreba/Task2/commits/main)
 # Task Onegin
-![image.png](https://www.belykrolik.ru/catalog/evgenij_onegin-g22882111/?srsltid=AU7gw4VmKobtTbRRp4NRvVp1owhNeiwh98eUPuzxZYUQTY7FmcrykD59)
+![alt text](image-1.png)
 
 # Постановка задачи:
 1. Считать текс из файла максимально эффективным способом
