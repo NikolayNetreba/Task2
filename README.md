@@ -1,5 +1,13 @@
+🌐 [![Language](https://shields.io)](https://wikipedia.org)
+🛠 [![GitHub Actions Status](https://shields.io)](https://github.com)
+📄 [![GitHub license](https://shields.io)](LICENSE)
+
+👥 [![GitHub forks](https://shields.io)](https://github.com)
+⭐ [![GitHub stars](https://shields.io)](https://github.com)
+🔀 [![GitHub pull requests](https://shields.io)](https://github.com)
+📅 [![GitHub last commit](https://shields.io)](https://github.com)
 # Task Onegin
-![alt text](image.png)
+![image.png](https://www.belykrolik.ru/catalog/evgenij_onegin-g22882111/?srsltid=AU7gw4VmKobtTbRRp4NRvVp1owhNeiwh98eUPuzxZYUQTY7FmcrykD59)
 
 # Постановка задачи:
 1. Считать текс из файла максимально эффективным способом
