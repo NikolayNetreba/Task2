@@ -1,3 +1,5 @@
+#define TX_COMPILED
+#include "TXLib.h"
 #include <stdlib.h>
 #include <io.h>
 #include <ctype.h>
@@ -13,7 +15,7 @@
 int main(int argc, char* argv[]){
     const char* fileName = (argc == 2) ? argv[1] : "onegin.txt";
 
-    struct text onegin = {.fileName = fileName};
+    text onegin = {.fileName = fileName};
     read_from_file(&onegin);
     fill_indexes(&onegin);
 
@@ -25,8 +27,12 @@ int main(int argc, char* argv[]){
 
     print_buffer(&onegin);
 
-    free(onegin.buffer);
-    free(onegin.line);
+    free_struct_text(&onegin);
+}
+
+void free_struct_text(text* arg){
+    free(arg->buffer);
+    free(arg->line);
 }
 
 void print_sorted_array(text* arg){
@@ -92,12 +98,7 @@ off_t find_file_size(const int fd, text* arg){
     return arg->fileStat.st_size;
 }
 
-void clear_buffer(){
-    int trash = 0;
-    while ((trash = getchar()) != '\n' && trash != EOF);
-}
-
-const int scan_file_descriptor(const char** fileName){
+int scan_file_descriptor(const char** fileName){
     int fd = open(*fileName, O_RDONLY);
 
     static char file[MAX_LEN] = "";
@@ -107,10 +108,8 @@ const int scan_file_descriptor(const char** fileName){
         fprintf(stderr, LINE);
 
         fprintf(stderr, MAKE_YELLOW("Enter the file name: "));
-        if (scanf("%" MAX_LEN_STR "s", file) != 1) {
-            clear_buffer();
-            continue;
-        }
+        fgets(file, sizeof(file), stdin);
+        file[strcspn(file, "\n")] = '\0'; // search first include b in a, and return index to delete \n from fgets
 
         fd = open(file, O_RDONLY);
     }
@@ -134,7 +133,7 @@ void read_from_file(text* arg){
 
     //read from file
     arg->bytesRead = read(fd, arg->buffer, arg->size);
-    assert(arg->bytesRead != ERROR_VALUE && "Error read from file");
+    assert(arg->bytesRead != (size_t)ERROR_VALUE && "Error read from file");
 
     //add end of file
     arg->buffer[arg->bytesRead] = '\0';
@@ -167,8 +166,8 @@ int my_str_cmp(char* str1, char* str2){
             break;
         }
 
-        const char c1 = tolower(*str1);
-        const char c2 = tolower(*str2);
+        const char c1 = (char)tolower(*str1);
+        const char c2 = (char)tolower(*str2);
 
         if (c1 != c2) return c1 - c2;
 
@@ -179,7 +178,7 @@ int my_str_cmp(char* str1, char* str2){
     return tolower(*str1) - tolower(*str2);
 }
 
-int my_str_cmp_reverse(lineParam* str1, lineParam* str2){
+int my_str_cmp_reverse(const lineParam* str1, const lineParam* str2){
     char* end1 = str1->end;
     char* end2 = str2->end;
 
@@ -191,8 +190,8 @@ int my_str_cmp_reverse(lineParam* str1, lineParam* str2){
             break;
         }
 
-        const char c1 = tolower(*end1);
-        const char c2 = tolower(*end2);
+        const char c1 = (char)tolower(*end1);
+        const char c2 = (char)tolower(*end2);
 
         if (c1 != c2) return c1 - c2;
 
@@ -200,21 +199,21 @@ int my_str_cmp_reverse(lineParam* str1, lineParam* str2){
         end2--;
     }
 
-    const char c1 = (end1 >= str1->start) ? tolower(*end1) : '\0';
-    const char c2 = (end2 >= str2->start) ? tolower(*end2) : '\0';
+    const char c1 = (end1 >= str1->start) ? (char) tolower(*end1) : '\0';
+    const char c2 = (end2 >= str2->start) ? (char) tolower(*end2) : '\0';
     return c1 - c2;
 }
 
 int abc_comp(const void* a, const void* b){
-    char* arg1 = ((lineParam*) a)->start;
-    char* arg2 = ((lineParam*) b)->start;
+    char* arg1 = ((const lineParam*) a)->start;
+    char* arg2 = ((const lineParam*) b)->start;
 
     return my_str_cmp(arg1, arg2);
 }
 
 int cba_comp(const void* a, const void* b){
-    lineParam* arg1 = ((lineParam*) a);
-    lineParam* arg2 = ((lineParam*) b);
+    const lineParam* arg1 = ((const lineParam*) a);
+    const lineParam* arg2 = ((const lineParam*) b);
 
     return my_str_cmp_reverse(arg1, arg2);
 }

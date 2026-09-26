@@ -13,7 +13,7 @@ struct lineParam{
     char* end;
 };
 
-struct text{
+typedef struct{
     const char* fileName;
     char* buffer;
     lineParam* line;
@@ -22,9 +22,9 @@ struct text{
     off_t size;
     size_t strCount;
     size_t bytesRead;
-};
+} text;
 
-void fill_str_count(text* arg, char sepElem);
+size_t fill_str_count(text* arg, char sepElem);
 
 void fill_indexes(text* arg);
 
@@ -37,7 +37,7 @@ void go_to_letter(char** a);
 void go_to_letter_reverse(char** end, char* start);
 
 int my_str_cmp(char* str1, char* str2);
-int my_str_cmp_reverse(lineParam* str1, lineParam* str2);
+int my_str_cmp_reverse(const lineParam* str1, const lineParam* str2);
 
 int abc_comp(const void* a, const void* b);
 int cba_comp(const void* a, const void* b);
@@ -45,5 +45,6 @@ int cba_comp(const void* a, const void* b);
 void print_sorted_array(text* arg);
 void print_buffer(text* arg);
 
-void clear_buffer();
-const int scan_file_descriptor(const char** fileName);
+int scan_file_descriptor(const char** fileName);
+
+void free_struct_text(text* arg);
