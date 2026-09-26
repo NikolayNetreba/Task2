@@ -1,6 +1,4 @@
 [![Language](https://img.shields.io/badge/language-C-blue.svg)](https://en.wikipedia.org/wiki/C_(programming_language))
-[![GitHub Actions Status](https://img.shields.io/github/actions/workflow/status/NikolayNetreba/Task2/main.yml?branch=main)](https://github.com/NikolayNetreba/Task2/actions)
-[![GitHub license](https://img.shields.io/github/license/NikolayNetreba/Task2)](LICENSE)
 
 [![GitHub forks](https://img.shields.io/github/forks/NikolayNetreba/Task2)](https://github.com/NikolayNetreba/Task2/network/members)
 [![GitHub stars](https://img.shields.io/github/stars/NikolayNetreba/Task2)](https://github.com/NikolayNetreba/Task2/stargazers)
